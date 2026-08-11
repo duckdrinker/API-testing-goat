@@ -1,0 +1,17 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API Security fixture — Swagger 2.0 ingestion (ASEC-003)",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/messages": {
+      "get": {
+        "summary": "List messages — no security scheme declared anywhere in this spec",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      }
+    }
+  }
+}
