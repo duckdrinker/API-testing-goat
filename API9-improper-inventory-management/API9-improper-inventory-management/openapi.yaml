@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: API9 Improper Inventory Management fixture
+  version: "1.0"
+paths:
+  /api/users:
+    get:
+      summary: List users (implemented in code — matches ApiController.listUsers())
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+  /api/orders/{orderId}:
+    get:
+      summary: >-
+        Get order — matches ApiController.getOrder() even though the path
+        parameter is named "orderId" here vs "id" in code (zombie/orphan
+        negative: normalized join on method+structure, not literal param name)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/orphaned-endpoint:
+    get:
+      summary: Documented here but never implemented in code -> orphan_spec
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
