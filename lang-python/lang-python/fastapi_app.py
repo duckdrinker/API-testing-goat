@@ -27,6 +27,7 @@ class UserProfileUpdateRequest(BaseModel):
     name: str
     email: str
     role: str  # binds through to the persistent entity -> mass_assignment (094)
+    enabledPassword: bool  # credential-shaped name but boolean type -> must NOT be sensitivity-tagged
 
 
 class UserProfileSafeUpdateRequest(BaseModel):
@@ -46,7 +47,7 @@ def get_summary(id: str):
 
 @app.put("/api/users/profile")
 def update_profile(update: UserProfileUpdateRequest):
-    return {"id": "1", "name": update.name, "email": update.email, "role": update.role}
+    return {"id": "1", "name": update.name, "email": update.email, "role": update.role, "enabledPassword": update.enabledPassword}
 
 
 @app.put("/api/users/{id}/safe-update")

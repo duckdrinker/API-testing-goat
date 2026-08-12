@@ -17,4 +17,11 @@ public class ProductController : ControllerBase
     [HttpGet("safe/{id}")]
     [Authorize(Policy = "OwnerOrAdmin")]
     public string GetOwnProduct(string id) => $"{{...own product {id}...}}";
+
+    // Role check present, but "Manager" was removed from the shipped privilegedRoles
+    // default on broken_object_level_authorization.yml (xygeni-product-backlog#1400) ->
+    // Phase B should now confirm this candidate instead of clearing it.
+    [HttpGet("manager/{id}")]
+    [Authorize(Roles = "Manager")]
+    public string GetManagerScopedProduct(string id) => $"{{...product {id}, manager view...}}";
 }
