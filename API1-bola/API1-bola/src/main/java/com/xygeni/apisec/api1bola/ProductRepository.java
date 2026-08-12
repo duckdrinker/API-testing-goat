@@ -22,4 +22,12 @@ public class ProductRepository {
     public void delete(String id) {
         store.remove(id);
     }
+
+    public Product selectForCurrentTenant(String id) {
+        return store.get(id);
+    }
+
+    public Product findByUserAgent(String userAgent) {
+        return store.get(userAgent);
+    }
 }
