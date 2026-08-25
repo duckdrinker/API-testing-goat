@@ -1,0 +1,11 @@
+{
+  "name": "autodiscovery-mixed-signals",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Two supported frameworks, two languages, manifest-hit confidence for both",
+  "main": "app.js",
+  "dependencies": {
+    "koa": "^2.15.3",
+    "@koa/router": "^12.0.1"
+  }
+}

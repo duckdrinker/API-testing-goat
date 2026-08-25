@@ -1,0 +1,13 @@
+{
+  "name": "lang-nestjs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API Discovery framework detector fixture (NestJS)",
+  "main": "users.controller.ts",
+  "dependencies": {
+    "@nestjs/core": "^10.3.0",
+    "@nestjs/common": "^10.3.0",
+    "@nestjs/passport": "^10.0.3",
+    "@nestjs/swagger": "^7.3.0"
+  }
+}
