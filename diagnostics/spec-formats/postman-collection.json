@@ -1,0 +1,23 @@
+{
+  "info": {
+    "name": "API Security fixture — Postman v2.1 ingestion (ASEC-004)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get account settings",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.example.com/api/settings",
+          "protocol": "https",
+          "host": ["api", "example", "com"],
+          "path": ["api", "settings"]
+        },
+        "description": "No Authorization header or auth block declared anywhere in this collection."
+      },
+      "response": []
+    }
+  ]
+}

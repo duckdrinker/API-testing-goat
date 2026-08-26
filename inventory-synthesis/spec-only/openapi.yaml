@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: Shipping Spec
+  version: "1.0"
+paths:
+  /api/shipments:
+    get:
+      summary: List shipments
+      responses:
+        "200":
+          description: OK
+  /api/shipments/{id}:
+    get:
+      summary: Get shipment by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK

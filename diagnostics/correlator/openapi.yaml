@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: FlawCorrelator fixture
+  version: "1.0"
+paths:
+  /api/patients/{id}:
+    get:
+      summary: Get patient (matches PatientController.getPatient())
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/orders/{id}:
+    get:
+      summary: Get order (matches OrderController.getOrder())
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+# Note: /api/internal/support-ticket is intentionally NOT declared here,
+# so that SupportTicketController.getSupportTicket() is reported as a
+# zombie_endpoint (present in code, absent from this spec).
+#
+# /api/patients/{id} and /api/orders/{id} deliberately declare NO security
+# requirement here (confirmed empirically: the engine merges spec-declared
+# security with the source-code model, so a spec-side "security: bearerAuth"
+# marks the endpoint authenticated overall even when the source code itself
+# has no auth annotation - it does NOT defer to source code as originally
+# assumed). Leaving both sources without a security declaration is what
+# actually lets PatientController.getPatient() / OrderController.getOrder()
+# surface as unauthenticated_endpoint candidates, which rules 1 and 3 need.

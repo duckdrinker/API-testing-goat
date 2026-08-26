@@ -1,6 +1,0 @@
-fastapi
-flask
-flask-cors
-django
-djangorestframework
-pyjwt

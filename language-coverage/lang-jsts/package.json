@@ -1,0 +1,12 @@
+{
+  "name": "lang-jsts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cross-detector JS/TS fixtures (EDE, pii_leak, BOLA, BFLA, CORS, JWT, mass_assignment)",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
