@@ -60,3 +60,13 @@ prefijo `APIN-*`, ticket `xygeni-product-backlog#1632`): `api-basic`, `api-basic
 shape, endpoints distintos, para casos de "cambio de endpoints ya guardados"), `inventory-no-api`
 (proyecto sin ningún framework de API, para las preconditions "sin APIs") y `spec-only` (solo un
 `openapi.yaml`, sin código fuente).
+
+### `inventory-assets/`
+
+Fixtures del TP de **assets formales de inventario de APIs** (`test-plan-apisec-inventory-assets.html`,
+prefijo `AIAS-*`, ticket `xygeni-product-backlog#1057`) — distinto de `inventory-synthesis/`
+(#1632, reconciliación en el **servidor**): este TP prueba qué genera el propio **CLI/agente**
+(modelo formal `api_service`/`api_module`/`api_endpoint`, ids deterministas, links `belongs_to`/
+source-location) y el campo `issuesAssetMapping` del report de apisec, todo en local sin
+`--upload`. `aias-api-basic` (Spring MVC, 2 módulos, 1 hallazgo PII deliberado, colisión
+`GET /health` entre módulos) y `aias-no-api` (sin framework REST, caso negativo).
