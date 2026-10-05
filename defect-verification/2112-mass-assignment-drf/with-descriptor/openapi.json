@@ -1,0 +1,15 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Fixture API", "version": "1.0.0"},
+  "paths": {
+    "/api/core/data-sources/": {
+      "post": {
+        "operationId": "core_data_sources_create",
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/DataSourceRequest"}}}},
+        "responses": {"201": {"description": "created"}}
+      }
+    }
+  },
+  "components": {"schemas": {"DataSourceRequest": {"type": "object", "required": ["name"],
+    "properties": {"name": {"type": "string"}, "enabled": {"type": "boolean"}, "owner": {"type": "integer"}, "is_admin": {"type": "boolean"}}}}}
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="4.0" metadata-complete="false">
+  <servlet><servlet-name>/setup</servlet-name><servlet-class>servlets.Setup</servlet-class></servlet>
+  <servlet-mapping><servlet-name>/setup</servlet-name><url-pattern>/setup</url-pattern></servlet-mapping>
+
+  <servlet><servlet-name>multi</servlet-name><servlet-class>servlets.Multi</servlet-class></servlet>
+  <servlet-mapping><servlet-name>multi</servlet-name><url-pattern>/multi</url-pattern><url-pattern>/multi/alt</url-pattern></servlet-mapping>
+
+  <servlet><servlet-name>adminPurge</servlet-name><servlet-class>servlets.AdminPurge</servlet-class></servlet>
+  <servlet-mapping><servlet-name>adminPurge</servlet-name><url-pattern>/admin/purge</url-pattern></servlet-mapping>
+
+  <security-constraint>
+    <web-resource-collection><web-resource-name>admin</web-resource-name><url-pattern>/admin/*</url-pattern></web-resource-collection>
+    <auth-constraint><role-name>admin</role-name></auth-constraint>
+  </security-constraint>
+  <!-- servlets.Unmapped has NO servlet-mapping: must not become an endpoint -->
+</web-app>

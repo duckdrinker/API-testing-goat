@@ -1,0 +1,4 @@
+services:
+    app.controller.product_taxon:
+        class: App\Controller\ProductTaxonController
+        public: true

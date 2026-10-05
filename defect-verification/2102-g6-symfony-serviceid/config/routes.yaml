@@ -1,0 +1,17 @@
+app_product_taxon_positions:
+    path: /admin/ajax/product-taxons/positions
+    methods: [PUT]
+    defaults:
+        _controller: app.controller.product_taxon::updateProductTaxonsPositionsAction
+
+app_direct_class:
+    path: /admin/ajax/direct
+    methods: [GET]
+    defaults:
+        _controller: App\Controller\DirectController::indexAction
+
+app_unknown_service:
+    path: /admin/ajax/unknown
+    methods: [GET]
+    defaults:
+        _controller: app.controller.does_not_exist::indexAction
