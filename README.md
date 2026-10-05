@@ -70,3 +70,18 @@ prefijo `AIAS-*`, ticket `xygeni-product-backlog#1057`) — distinto de `invento
 source-location) y el campo `issuesAssetMapping` del report de apisec, todo en local sin
 `--upload`. `aias-api-basic` (Spring MVC, 2 módulos, 1 hallazgo PII deliberado, colisión
 `GET /health` entre módulos) y `aias-no-api` (sin framework REST, caso negativo).
+
+### `defect-verification/`
+
+Fixtures de verificación de defectos concretos del backlog (ER de defect-verification, `APID-*`/`ASEC-*`),
+un proyecto por ticket o escenario:
+- `2102-g1-java-webxml` … `2102-g6-symfony-serviceid` — #2102, discovery en 6 formas de proyecto
+  (Java web.xml, WebForms, MVC convencional, Go envuelto, scripts PHP, Symfony service id).
+- `2110-go-middleware`, `2110-go-middleware-chi` — #2110, middleware de rutas Go como call expression.
+- `2112-mass-assignment-drf` — #2112, `mass_assignment` en DRF.
+- `2117-ssrf-drf` — #2117, `ssrf` con `url` de solo lectura en DRF.
+- `2024-csharp-bola-imperative-auth` — #2024 (punto 3, fix #2018 / DepsDoctor#4450): BOLA en C# con la
+  autenticación inferida desde `IAuthorizationService.AuthorizeAsync` imperativo (forma Orchard Core).
+- `2024-go-exposure-pii` — #2024 (punto 1, parte Go): `excessive_data_exposure_go` / `pii_leak_in_response_go`.
+
+Cada carpeta tiene su `README.md` con los casos esperados y, en los ya validados, los resultados reales.
