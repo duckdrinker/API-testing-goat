@@ -1,0 +1,5 @@
+name: not an action
+description: a configuration mapping that happens to be called action.yml
+settings:
+  retries: 3
+  timeout: 30

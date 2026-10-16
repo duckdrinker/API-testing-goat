@@ -1,0 +1,8 @@
+name: Setup
+description: valid composite action
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@main
+    - run: echo hello
+      shell: bash

@@ -1,0 +1,1 @@
+{ "name": "fx/app", "require": { "php": "^8.2", "laravel/framework": "^11.0", "firebase/php-jwt": "^6.10" } }

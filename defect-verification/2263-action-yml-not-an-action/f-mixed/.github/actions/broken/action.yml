@@ -1,0 +1,5 @@
+name: Broken
+description: has runs but the YAML is malformed
+runs:
+  using: composite
+  steps: [ { run: "echo hi"

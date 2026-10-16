@@ -1,0 +1,1 @@
+{ "name": "fx", "version": "1.0.0", "dependencies": { "express": "4.19.2", "passport": "0.7.0", "passport-local": "1.0.0", "express-session": "1.18.0", "jsonwebtoken": "9.0.2" } }
