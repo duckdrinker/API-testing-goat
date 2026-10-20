@@ -2,7 +2,13 @@
 // NOT REPORTED cases must stay silent; REPORTED cases must fire
 // javascript.user_controlled_primary_key.
 const express = require('express');
-const { Order } = require('./models');
+const { Sequelize, DataTypes } = require('sequelize');
+
+const sequelize = new Sequelize('sqlite::memory:');
+const Order = sequelize.define('Order', {
+  owner: DataTypes.STRING,
+  status: DataTypes.STRING,
+});
 
 const router = express.Router();
 

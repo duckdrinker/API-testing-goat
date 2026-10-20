@@ -7,12 +7,21 @@ import (
 	"gorm.io/gorm"
 )
 
+// AppUser is the application's own type for the authenticated caller.
+type AppUser struct {
+	Username string
+}
+
 type Order struct {
 	ID    uint
 	Owner string
 }
 
 var db *gorm.DB
+
+func currentUser(c *gin.Context) *AppUser {
+	return c.MustGet("user").(*AppUser)
+}
 
 // #2214 - owner bound through a local variable (gin + gorm).
 // NOT REPORTED cases must stay silent; REPORTED cases must fire
@@ -30,13 +39,13 @@ func ctrl1(c *gin.Context) {
 func ctrl2(c *gin.Context) {
 	var order Order
 	id, _ := c.GetQuery("id")
-	db.Where("owner = ?", c.GetString("user")).First(&order, id)
+	db.Where("owner = ?", currentUser(c).Username).First(&order, id)
 	c.JSON(http.StatusOK, order)
 }
 
 // A1 NOT REPORTED: bound in the lookup, caller held in a local.
 func a1(c *gin.Context) {
-	owner := c.GetString("user")
+	owner := currentUser(c).Username
 	var order Order
 	id, _ := c.GetQuery("id")
 	db.Where("owner = ?", owner).First(&order, id)
@@ -54,7 +63,7 @@ func a2(c *gin.Context) {
 
 // B1 NOT REPORTED: comparison after the lookup, caller held in a local.
 func b1(c *gin.Context) {
-	owner := c.GetString("user")
+	owner := currentUser(c).Username
 	var order Order
 	id, _ := c.GetQuery("id")
 	db.First(&order, id)
@@ -80,7 +89,7 @@ func b2(c *gin.Context) {
 
 // C1 REPORTED: local first takes the caller, then is rebound to a request value.
 func c1(c *gin.Context) {
-	owner := c.GetString("user")
+	owner := currentUser(c).Username
 	owner = c.Query("owner")
 	var order Order
 	id, _ := c.GetQuery("id")
@@ -90,7 +99,7 @@ func c1(c *gin.Context) {
 
 // C2 REPORTED: rebound local, comparison after the lookup.
 func c2(c *gin.Context) {
-	owner := c.GetString("user")
+	owner := currentUser(c).Username
 	owner = c.Query("owner")
 	var order Order
 	id, _ := c.GetQuery("id")

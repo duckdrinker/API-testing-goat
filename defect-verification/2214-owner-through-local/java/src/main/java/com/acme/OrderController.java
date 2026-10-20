@@ -1,7 +1,7 @@
 package com.acme;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.security.Principal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -27,14 +27,14 @@ public class OrderController {
 
     // CTRL-2 NOT REPORTED: caller written inline in the bound.
     @GetMapping("/ctrl2/{id}")
-    public Order ctrl2(@PathVariable Long id, Principal principal) {
-        return repo.findByIdAndOwner(id, principal.getName()).orElse(null);
+    public Order ctrl2(@PathVariable Long id, @AuthenticationPrincipal AppUser user) {
+        return repo.findByIdAndOwner(id, user.getUsername()).orElse(null);
     }
 
     // A1 NOT REPORTED: bound in the lookup, caller held in a local.
     @GetMapping("/a1/{id}")
-    public Order a1(@PathVariable Long id, Principal principal) {
-        String owner = principal.getName();
+    public Order a1(@PathVariable Long id, @AuthenticationPrincipal AppUser user) {
+        String owner = user.getUsername();
         return repo.findByIdAndOwner(id, owner).orElse(null);
     }
 
@@ -47,8 +47,8 @@ public class OrderController {
 
     // B1 NOT REPORTED: comparison after the lookup, caller held in a local.
     @GetMapping("/b1/{id}")
-    public Order b1(@PathVariable Long id, Principal principal) {
-        String owner = principal.getName();
+    public Order b1(@PathVariable Long id, @AuthenticationPrincipal AppUser user) {
+        String owner = user.getUsername();
         Order order = repo.findById(id).orElse(null);
         if (order == null || !order.getOwner().equals(owner)) {
             throw new IllegalStateException("forbidden");
@@ -69,16 +69,16 @@ public class OrderController {
 
     // C1 REPORTED: local first takes the caller, then is rebound to a request value.
     @GetMapping("/c1/{id}")
-    public Order c1(@PathVariable Long id, Principal principal, HttpServletRequest request) {
-        String owner = principal.getName();
+    public Order c1(@PathVariable Long id, @AuthenticationPrincipal AppUser user, HttpServletRequest request) {
+        String owner = user.getUsername();
         owner = request.getParameter("owner");
         return repo.findByIdAndOwner(id, owner).orElse(null);
     }
 
     // C2 REPORTED: rebound local, comparison after the lookup.
     @GetMapping("/c2/{id}")
-    public Order c2(@PathVariable Long id, Principal principal, HttpServletRequest request) {
-        String owner = principal.getName();
+    public Order c2(@PathVariable Long id, @AuthenticationPrincipal AppUser user, HttpServletRequest request) {
+        String owner = user.getUsername();
         owner = request.getParameter("owner");
         Order order = repo.findById(id).orElse(null);
         if (order == null || !order.getOwner().equals(owner)) {
