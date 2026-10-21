@@ -1,0 +1,69 @@
+openapi: 3.0.3
+info:
+  title: BOLA discriminators - descriptor variant
+  version: 1.0.0
+security:
+  - bearerAuth: []
+paths:
+  /customers/{id}:
+    get:
+      operationId: getCustomer
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+  /profiles/{id}:
+    get:
+      operationId: getProfile
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The public profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicProfile'
+  /orgs/{orgId}/projects/{projectId}:
+    get:
+      operationId: getProject
+      parameters:
+        - { name: orgId, in: path, required: true, schema: { type: string } }
+        - { name: projectId, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+components:
+  securitySchemes:
+    bearerAuth: { type: http, scheme: bearer }
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id: { type: string }
+        ownerId: { type: string }
+        name: { type: string }
+        email: { type: string, format: email }
+        ssn: { type: string }
+        cardNumber: { type: string }
+    PublicProfile:
+      type: object
+      properties:
+        id: { type: string }
+        displayName: { type: string }
+        title: { type: string }
+    Project:
+      type: object
+      properties:
+        id: { type: string }
+        orgId: { type: string }
+        name: { type: string }
