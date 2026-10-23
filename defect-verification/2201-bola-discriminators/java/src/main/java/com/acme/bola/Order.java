@@ -1,7 +1,16 @@
 package com.acme.bola;
 
-/** Persistent entity: userId/ownerId say who owns the order, status is a protected field. */
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+/**
+ * Stored entity used as the request type of POST /api/orders (case G). The mass_assignment
+ * detector reports on bind evidence, and an @Entity request type is that evidence: the client
+ * can set userId/ownerId (owner references) and status/role (protected fields).
+ */
+@Entity
 public class Order {
+    @Id
     private String id;
     private String userId;
     private String ownerId;

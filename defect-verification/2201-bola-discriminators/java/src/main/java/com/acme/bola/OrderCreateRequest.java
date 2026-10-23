@@ -1,6 +1,11 @@
 package com.acme.bola;
 
-/** Case G: the client can set the owner (userId, ownerId) and protected fields (status, role). */
+/**
+ * Case I: a plain DTO (not an entity) that the service maps field by field. The client can still
+ * set userId/ownerId, but there is no bind evidence for mass_assignment: the type is not stored
+ * and the whole body does not reach a persistence call. Covering it needs a data-flow check
+ * (agreed with the dev as a future ticket), so no finding is the accurate result today.
+ */
 public class OrderCreateRequest {
     private String productName;
     private int quantity;

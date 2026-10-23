@@ -14,9 +14,10 @@ Scan the folder with `xygeni apisecurity -d <this folder> -f json -o out` and re
 | D | `GET /api/sites/{siteId}/devices/{cid}` | same as C with names a name heuristic does not know: `siteId: scope`, `cid: object` |
 | E | `GET`/`DELETE /api/accounts/{id}` | `id_parameter_roles`: `id: object`; `id_uses` names the lookup line and the delete line |
 | F | `GET /api/my/accounts/{id}` | negative: the lookup is scoped to the caller (`findAccountByIdAndOwner`), no BOLA, no `id_uses` |
-| G | `POST /api/orders` | `mass_assignment` finding with `owner_reference_fields` = `userId`, `ownerId` (a subset of the protected fields; `status` and `role` must not be in it) |
-| I | `POST /api/orders/new` | same binding as G, but the body goes to `create(...)`: `mass_assignment` is not reported (it only recognises `update`, `save`, `insert` and `persist` as the write) |
+| G | `POST /api/orders` | request type is a stored entity (`@Entity` `Order`): `mass_assignment` finding with `owner_reference_fields` = `userId`, `ownerId` (a subset of the protected fields; `status` and `role` must not be in it) |
 | H | `POST /api/orders/safe` | negative: no owner-reference field, no `mass_assignment` finding |
+| I | `POST /api/orders/new` | plain DTO (`OrderCreateRequest`) mapped field by field by the service: no `mass_assignment` finding. The detector needs bind evidence (entity request type, or the whole body reaching a persistence call); an explicit mapping needs a data-flow check, which the dev will handle in a new ticket |
+| J | `POST /api/shipments` | the whole request body (`ShipmentRequest`) goes to `ShipmentRepository.save(...)`: `mass_assignment` finding with `owner_reference_fields` = `userId`, `ownerId` |
 
 ## `openapi/`
 

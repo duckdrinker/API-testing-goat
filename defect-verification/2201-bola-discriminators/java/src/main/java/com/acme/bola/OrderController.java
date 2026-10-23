@@ -7,36 +7,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/api")
 public class OrderController {
 
     private final OrderService service;
+    private final OrderRepository orders;
+    private final ShipmentRepository shipments;
 
-    public OrderController(OrderService service) {
+    public OrderController(OrderService service, OrderRepository orders, ShipmentRepository shipments) {
         this.service = service;
+        this.orders = orders;
+        this.shipments = shipments;
     }
 
-    /** Case G: POST binds userId/ownerId/status/role from the request (the body goes to save(...)). */
-    @PostMapping
+    /** Case G: the request type is the stored entity, so the client sets userId/ownerId/status/role. */
+    @PostMapping("/orders")
     @PreAuthorize("isAuthenticated()")
-    public Order save(@RequestBody OrderCreateRequest req) {
-        return service.save(req);
+    public Order createOrder(@RequestBody Order order) {
+        return orders.save(order);
     }
 
-    /**
-     * Case I: same binding as case G, but the body goes to create(...). The mass_assignment detector
-     * only recognises update/save/insert/persist as the write, so no finding is produced here.
-     */
-    @PostMapping("/new")
+    /** Case H (negative): request type with no owner-reference or protected field. */
+    @PostMapping("/orders/safe")
+    @PreAuthorize("isAuthenticated()")
+    public Order createSafe(@RequestBody OrderCreateSafeRequest req) {
+        return service.createSafe(req);
+    }
+
+    /** Case I: plain DTO mapped explicitly by the service: no bind evidence, no finding. */
+    @PostMapping("/orders/new")
     @PreAuthorize("isAuthenticated()")
     public Order create(@RequestBody OrderCreateRequest req) {
         return service.create(req);
     }
 
-    /** Case H (negative). */
-    @PostMapping("/safe")
+    /** Case J: the whole request body reaches a persistence call. */
+    @PostMapping("/shipments")
     @PreAuthorize("isAuthenticated()")
-    public Order createSafe(@RequestBody OrderCreateSafeRequest req) {
-        return service.createSafe(req);
+    public ShipmentRequest createShipment(@RequestBody ShipmentRequest req) {
+        return shipments.save(req);
     }
 }

@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderService {
 
-    public Order save(OrderCreateRequest req) {
-        return create(req);
-    }
-
+    /** Case I: explicit field-by-field mapping of a DTO. */
     public Order create(OrderCreateRequest req) {
         Order order = new Order();
         order.setProductName(req.getProductName());
@@ -20,6 +17,7 @@ public class OrderService {
         return order;
     }
 
+    /** Case H (negative): the DTO has nothing to bind. */
     public Order createSafe(OrderCreateSafeRequest req) {
         Order order = new Order();
         order.setProductName(req.getProductName());
