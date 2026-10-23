@@ -35,20 +35,20 @@ public class OrdersController : ControllerBase
         return Ok(order);
     }
 
-    // CTRL-2 NOT REPORTED: caller written inline in the bound.
+    // CTRL-2 NOT REPORTED: owner written inline in the bound.
     [HttpGet("ctrl2/{id}")]
     public IActionResult Ctrl2(int id)
     {
-        var order = _db.Orders.FirstOrDefault(o => o.Id == id && o.Owner == User.Identity!.Name);
+        var order = _db.Orders.FirstOrDefault(o => o.Id == id && o.Owner == User.Identity.Name);
         return Ok(order);
     }
 
-    // A1 NOT REPORTED: bound in the lookup (LINQ method syntax), caller held in a local.
+    // A1 NOT REPORTED: bound in the lookup (LINQ method syntax), owner held in a local.
     [HttpGet("a1/{id}")]
     public IActionResult A1(int id)
     {
-        var caller = User.Identity!.Name;
-        var order = _db.Orders.FirstOrDefault(o => o.Id == id && o.Owner == caller);
+        var owner = User.Identity.Name;
+        var order = _db.Orders.FirstOrDefault(o => o.Id == id && o.Owner == owner);
         return Ok(order);
     }
 
@@ -56,8 +56,8 @@ public class OrdersController : ControllerBase
     [HttpGet("a1q/{id}")]
     public IActionResult A1q(int id)
     {
-        var caller = User.Identity!.Name;
-        var order = (from o in _db.Orders where o.Id == id && o.Owner == caller select o).FirstOrDefault();
+        var owner = User.Identity.Name;
+        var order = (from o in _db.Orders where o.Id == id && o.Owner == owner select o).FirstOrDefault();
         return Ok(order);
     }
 
@@ -65,18 +65,18 @@ public class OrdersController : ControllerBase
     [HttpGet("a2/{id}")]
     public IActionResult A2(int id)
     {
-        var caller = Request.Query["owner"].ToString();
-        var order = _db.Orders.FirstOrDefault(o => o.Id == id && o.Owner == caller);
+        var owner = Request.Query["owner"].ToString();
+        var order = _db.Orders.FirstOrDefault(o => o.Id == id && o.Owner == owner);
         return Ok(order);
     }
 
-    // B1 NOT REPORTED: comparison after the lookup, caller held in a local.
+    // B1 NOT REPORTED: comparison after the lookup, owner held in a local.
     [HttpGet("b1/{id}")]
     public IActionResult B1(int id)
     {
-        var caller = User.Identity!.Name;
+        var owner = User.Identity.Name;
         var order = _db.Orders.Find(id);
-        if (order == null || order.Owner != caller) return Forbid();
+        if (order == null || order.Owner != owner) return Forbid();
         return Ok(order);
     }
 
@@ -84,19 +84,19 @@ public class OrdersController : ControllerBase
     [HttpGet("b2/{id}")]
     public IActionResult B2(int id)
     {
-        var caller = Request.Query["owner"].ToString();
+        var owner = Request.Query["owner"].ToString();
         var order = _db.Orders.Find(id);
-        if (order == null || order.Owner != caller) return Forbid();
+        if (order == null || order.Owner != owner) return Forbid();
         return Ok(order);
     }
 
-    // C1 REPORTED: local first takes the caller, then is rebound to a request value.
+    // C1 REPORTED: local first takes the owner, then is rebound to a request value.
     [HttpGet("c1/{id}")]
     public IActionResult C1(int id)
     {
-        var caller = User.Identity!.Name;
-        caller = Request.Query["owner"].ToString();
-        var order = _db.Orders.FirstOrDefault(o => o.Id == id && o.Owner == caller);
+        var owner = User.Identity.Name;
+        owner = Request.Query["owner"].ToString();
+        var order = _db.Orders.FirstOrDefault(o => o.Id == id && o.Owner == owner);
         return Ok(order);
     }
 
@@ -104,21 +104,21 @@ public class OrdersController : ControllerBase
     [HttpGet("c2/{id}")]
     public IActionResult C2(int id)
     {
-        var caller = User.Identity!.Name;
-        caller = Request.Query["owner"].ToString();
+        var owner = User.Identity.Name;
+        owner = Request.Query["owner"].ToString();
         var order = _db.Orders.Find(id);
-        if (order == null || order.Owner != caller) return Forbid();
+        if (order == null || order.Owner != owner) return Forbid();
         return Ok(order);
     }
 
-    // D1 REPORTED: loop variable, not assigned once from the caller.
+    // D1 REPORTED: loop variable, not assigned once from the owner.
     [HttpGet("d1/{id}")]
     public IActionResult D1(int id)
     {
         Order? found = null;
-        foreach (var caller in Request.Query["owners"])
+        foreach (var owner in Request.Query["owners"])
         {
-            found = _db.Orders.FirstOrDefault(o => o.Id == id && o.Owner == caller);
+            found = _db.Orders.FirstOrDefault(o => o.Id == id && o.Owner == owner);
         }
         return Ok(found);
     }
