@@ -1,0 +1,9 @@
+yaml_list:
+    path: /yaml/list
+    controller: App\Controller\YamlController::list
+    methods: [GET]
+
+yaml_create:
+    path: /yaml/create
+    controller: App\Controller\YamlController::create
+    methods: [POST]

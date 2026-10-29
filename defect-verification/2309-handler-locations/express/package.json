@@ -1,0 +1,7 @@
+{
+  "name": "fx-2309-express",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "4.19.2"
+  }
+}

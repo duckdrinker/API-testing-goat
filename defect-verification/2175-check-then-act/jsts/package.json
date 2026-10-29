@@ -1,0 +1,5 @@
+{
+  "name": "cta-jsts",
+  "version": "1.0.0",
+  "dependencies": { "express": "^4.19.0", "sequelize": "^6.37.0" }
+}

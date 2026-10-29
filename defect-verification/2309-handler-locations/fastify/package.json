@@ -1,0 +1,7 @@
+{
+  "name": "fx-2309-fastify",
+  "version": "1.0.0",
+  "dependencies": {
+    "fastify": "4.28.1"
+  }
+}

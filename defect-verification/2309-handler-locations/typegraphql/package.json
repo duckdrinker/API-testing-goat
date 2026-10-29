@@ -1,0 +1,9 @@
+{
+  "name": "fx-2309-typegraphql",
+  "version": "1.0.0",
+  "dependencies": {
+    "type-graphql": "2.0.0-rc.2",
+    "graphql": "16.9.0",
+    "reflect-metadata": "0.2.2"
+  }
+}
