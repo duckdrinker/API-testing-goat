@@ -1,0 +1,1 @@
+{ "name": "fx2348", "version": "1.0.0", "dependencies": { "express": "4.19.2", "sequelize": "6.37.3" } }

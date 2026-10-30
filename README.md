@@ -71,17 +71,27 @@ source-location) y el campo `issuesAssetMapping` del report de apisec, todo en l
 `--upload`. `aias-api-basic` (Spring MVC, 2 módulos, 1 hallazgo PII deliberado, colisión
 `GET /health` entre módulos) y `aias-no-api` (sin framework REST, caso negativo).
 
-### `defect-verification/`
+### `owasp-api-top10-variants/`
 
 Fixtures de verificación de defectos concretos del backlog (ER de defect-verification, `APID-*`/`ASEC-*`),
-un proyecto por ticket o escenario:
-- `2102-g1-java-webxml` … `2102-g6-symfony-serviceid` — #2102, discovery en 6 formas de proyecto
-  (Java web.xml, WebForms, MVC convencional, Go envuelto, scripts PHP, Symfony service id).
-- `2110-go-middleware`, `2110-go-middleware-chi` — #2110, middleware de rutas Go como call expression.
-- `2112-mass-assignment-drf` — #2112, `mass_assignment` en DRF.
-- `2117-ssrf-drf` — #2117, `ssrf` con `url` de solo lectura en DRF.
-- `2024-csharp-bola-imperative-auth` — #2024 (punto 3, fix #2018 / DepsDoctor#4450): BOLA en C# con la
-  autenticación inferida desde `IAuthorizationService.AuthorizeAsync` imperativo (forma Orchard Core).
-- `2024-go-exposure-pii` — #2024 (punto 1, parte Go): `excessive_data_exposure_go` / `pii_leak_in_response_go`.
+un proyecto por ticket o escenario, agrupados por la categoría OWASP API Security Top 10 del detector.
+Los proyectos base de `owasp-api-top10/` no se tocan; aquí van las variantes:
+- `API1-bola/` — `2024-csharp-bola-imperative-auth` (#2024 punto 3, fix #2018 / DepsDoctor#4450: BOLA en C#
+  con la autenticación inferida desde `AuthorizeAsync` imperativo, forma Orchard Core),
+  `2201-bola-discriminators`, `2214-owner-through-local`, `2348-express-public-read`.
+- `API2-broken-authentication/` — `2110-go-middleware`, `2110-go-middleware-chi` (#2110, middleware de rutas
+  Go como call expression), `2207-hidden-auth-helpers`.
+- `API3-broken-object-property-level-authorization/` — `2112-mass-assignment-drf` (#2112),
+  `2024-go-exposure-pii` (#2024 punto 1, parte Go: `excessive_data_exposure_go` / `pii_leak_in_response_go`).
+- `API6-unrestricted-business-flows/` — `2175-check-then-act`, `2234-money-writes`,
+  `2264-go-money-self-reassignment`.
+- `API7-ssrf/` — `2117-ssrf-drf` (#2117, `ssrf` con `url` de solo lectura en DRF).
 
-Cada carpeta tiene su `README.md` con los casos esperados y, en los ya validados, los resultados reales.
+Cada carpeta tiene su `README.md` con los casos esperados y, en los ya validados, los resultados reales
+(salvo `2214`, `2234`, `2264`, `2309` y `2348`, que aún no lo tienen).
+
+### `framework-discovery/` (casos de defectos)
+
+Además de los `lang-*` y `autodiscovery-*`, incluye los casos de discovery de defectos del backlog:
+`2102-g1-java-webxml` … `2102-g6-symfony-serviceid` (#2102: Java web.xml, WebForms, MVC convencional,
+Go envuelto, scripts PHP, Symfony service id), `2176-kotlin-spring-ktor` y `2309-handler-locations`.
