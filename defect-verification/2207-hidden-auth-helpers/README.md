@@ -30,18 +30,21 @@ census is withheld and only an `info` is emitted. Grant shapes that fire per lan
 | 7 | verifying helper called inside the grant expression itself | silent (observed: see ER) |
 | 8 | primitive called directly in the handler (control) | silent |
 
-Folders: `python/p0..p7`, `java/j0..j10` (j8 = case 7 with 1 call, j9 = case 8, j10 = auth0 primitive control),
-`kotlin/k0..k11`, `javascript/js0..js8`, `go/go0..go8`, `php/php0..php8`, `ruby/rb0..rb8`, `swift/sw0..sw9`
-(`sw9` = unverified token read from content without a helper).
+Folders: `python/p0..p9`, `java/j0..j10` (j8 = case 7 with 1 call, j9 = case 8, j10 = auth0 primitive control),
+`kotlin/k0..k13`, `javascript/js0..js10`, `go/go0..go10`, `php/php0..php8`, `ruby/rb0..rb8`, `swift/sw0..sw11`, `csharp/cs0..cs4`
+(`sw9` = unverified token read from content without a helper). The `js9`/`js10`, `p8`/`p9`, `go9`/`go10` and `sw10`/`sw11` pairs
+read the token in a same-file helper that returns it (`let token = readToken(req)`), as unverified and verified twins;
+`sw11` is the Swift case that is not followed to the grant.
 
 ## Real projects (HEAD, cloned in cloned-repos)
 
 saleor `dfa97c9` (2026-10-15), SecurityShepherd `cff3958` (2026-10-09), WebGoat v2026.4 `872d614`.
 Expected on 6.21.0: saleor 0, SecurityShepherd 0, WebGoat 1 (`HijackSessionAuthenticationProvider.java:58`).
 
-## C# (not verifiable)
+## C#
 
-Eight shapes were tried with the ASP.NET Core Identity login path (`SignInAsync` with a request-supplied user,
-`HttpContext.User = ...`, `HttpContext.SignInAsync(principal)`, session `SetString`, `Response.Cookies.Append`,
-`AddToRoleAsync`, `IsAdmin = true`, issuing a `JwtSecurityToken` with a role claim): the endpoints are discovered
-but `hidden_authentication_path` never fires, so no C# case is kept.
+The rule is comparative, so every case carries the canonical `Login` (`SignInManager.PasswordSignInAsync` then
+`HttpContext.SignInAsync`), as in the shape given on #2207. `cs0` has the grants that report (`Elevate`, `Trust`,
+`Maintenance`); `cs1`/`cs2` are the verifying helper (`ValidateToken`, silent) and its twin that only parses
+(`ReadJwtToken`, reported); `cs3`/`cs4` are the same pair with the helper called inside the grant expression
+(`HttpContext.User = VerifyToken(...)`). The projects are not compiled; they are read by the scanner only.
